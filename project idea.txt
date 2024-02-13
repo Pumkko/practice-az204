@@ -1,0 +1,52 @@
+Soooooooooooooooooooooo
+
+Here's the thingy : 
+
+IT would be great to work on a multi tenant repair bike shop app : 
+    - Employee User : they can login and manage the bike shop
+    - Client user : They can login and ask for repairs
+    - Anonymous they can browse pricing and create a client account
+
+
+Employee User can : 
+    Save a repair job for a client user's bike. If the client has no account, the repair job points to an anonymous client
+    Upload several pictures of a bike to have images describing what's wrong with IT
+    Upload a description of the problems
+    Upload the steps required to fix It and which step have been complete
+        And the parts
+
+We can imagine a scenario when the repair guy scans the barcode of a bike part with his phone (will not actually implement this), this sends a message to an Azure Event Grid
+which trigger an Azure Function. The Azure Function can then update the inventory
+
+Client user can : 
+    Follow the repairs as they go and get a notification when his bike is fixed
+    Book a appointment to bring the bike and have the expert takes picture and note the steps
+
+Anonymous can browse pricing
+
+Required Azure Resources :
+    - StaticWebApp for the React client app
+    - FunctionApp with a Function triggered by the EventGrid to update the inventory database
+    - WebApp to Deal with the front web app, why an Webapp and not a functionApp ? It makes more sense since we're not simply building an API 
+        or a suite of functions we are building a real app which will load Data from a DB, having a function on pay per execution time basis might incurr higher cost
+    - Azure Cosmos Db NoSql with : 
+        - Bike Shop database 
+            - Catalog Container 
+                - Catalog Schema
+                    - PartName -- partition key 
+                    - PartPrice
+            - Inventory Container with multiples Items 
+                - Items Schema 
+                    - PartName -- partition key 
+                    - PartPrice
+                    - PartAvailableQuantity
+            - Bike Repair Tasks container
+                - Repair Task Schema
+                    - ClientId -- partitionKey
+                    - Bike Pictures Directory Path
+                    - Status : Working on It, Waiting for Part, Done, Planned
+                    - Expected Date
+                Trigger than writes an Event in a Service Bus, and sends an email to the client
+
+    - Blob Storage to store pictures of the bikes, connection made from the React App using SAS Delegated key with a directory by Repair Job
+    - Order on the catalog sends an event to an azure service bus topic dealt with by a function as a simulation it writes to the CosmosDb Inventory
