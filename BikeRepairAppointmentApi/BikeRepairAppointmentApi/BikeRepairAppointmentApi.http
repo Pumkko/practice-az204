@@ -1,0 +1,6 @@
+@BikeRepairAppointmentApi_HostAddress = http://localhost:5073
+
+GET {{BikeRepairAppointmentApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

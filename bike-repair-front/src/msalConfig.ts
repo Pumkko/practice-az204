@@ -1,8 +1,6 @@
-import { Configuration, LogLevel } from "@azure/msal-browser";
+import { Configuration, EventType, LogLevel, PublicClientApplication } from "@azure/msal-browser";
 
-const authSI = `https://${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com/${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/${import.meta.env.VITE_USER_FLOW_NAME}`
 
-console.log(authSI);
 
 export const msalConfig: Configuration = {
     auth: {
@@ -44,9 +42,34 @@ export const msalConfig: Configuration = {
     }
 }
 
+export const msalInstance = new PublicClientApplication(msalConfig)
+
+// Default to using the first account if no account is active on page load
+if (!msalInstance.getActiveAccount() && msalInstance.getAllAccounts().length > 0) {
+    // Account selection logic is app dependent. Adjust as needed for different use cases.
+    msalInstance.setActiveAccount(msalInstance.getAllAccounts()[0]);
+}
+
+
+
+msalInstance.addEventCallback((event) => {
+    if (
+        (event.eventType === EventType.LOGIN_SUCCESS ||
+            event.eventType === EventType.ACQUIRE_TOKEN_SUCCESS ||
+            event.eventType === EventType.SSO_SILENT_SUCCESS) &&
+        event.payload !== null &&
+        "account" in event.payload &&
+        event.payload.account
+    ) {
+        msalInstance.setActiveAccount(event.payload.account);
+    }
+});
+
+
+
 export const protectedResources = {
     apiAppointment: {
-        endpoint: 'http://localhost:5000/api/todolist',
+        endpoint: `WeatherForecast`,
         scopes: {
             write: [import.meta.env.VITE_WRITE_SCOPE],
             read: [import.meta.env.VITE_READ_SCOPE],

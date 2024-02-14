@@ -14,6 +14,8 @@ interface ImportMetaEnv {
     // full URI of both scope declared in the API (App registration is in the AZ B2C Directory not the default one)
     readonly VITE_WRITE_SCOPE: string
     readonly VITE_READ_SCOPE: string
+
+    readonly VITE_API_ROOT: string
   }
   
   interface ImportMeta {

@@ -1,6 +1,6 @@
 
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
-import './App.css'
+import WeatherForecast from './appointments/components/WeatherForecast';
 
 function App() {
 
@@ -24,6 +24,8 @@ function App() {
             Logout
           </button>
         </p>
+
+        <WeatherForecast />
       </AuthenticatedTemplate>
     </>
   )
