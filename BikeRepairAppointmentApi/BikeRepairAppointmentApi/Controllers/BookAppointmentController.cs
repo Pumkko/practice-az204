@@ -1,12 +1,10 @@
 ﻿using Azure.Identity;
 using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using BikeRepairAppointmentApi.Config;
 using BikeRepairAppointmentApi.Inputs;
 using BikeRepairAppointmentApi.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
