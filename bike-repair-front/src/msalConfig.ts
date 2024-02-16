@@ -68,8 +68,9 @@ msalInstance.addEventCallback((event) => {
 
 
 export const protectedResources = {
-    apiAppointment: {
-        endpoint: `WeatherForecast`,
+    api: {
+        weatherForecast: `WeatherForecast`,
+        bookAppointment: 'BookAppointment',
         scopes: {
             write: [import.meta.env.VITE_WRITE_SCOPE],
             read: [import.meta.env.VITE_READ_SCOPE],
@@ -84,5 +85,5 @@ export const protectedResources = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-    scopes: [...protectedResources.apiAppointment.scopes.read, ...protectedResources.apiAppointment.scopes.write],
+    scopes: [...protectedResources.api.scopes.read, ...protectedResources.api.scopes.write],
 };

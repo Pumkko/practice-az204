@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(async (config) => {
     const response = await msalInstance.acquireTokenSilent({
-        scopes: protectedResources.apiAppointment.scopes.read
+        scopes: protectedResources.api.scopes.read
     });
     const bearer = `Bearer ${response.accessToken}`;
     config.headers.setAuthorization(bearer)
