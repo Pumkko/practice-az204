@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "bike_repair_shop_github_trigger": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7058",
+      "launchBrowser": false
+    }
+  }
+}
